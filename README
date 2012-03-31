@@ -1,8 +1,12 @@
+###README
+
+data sync module is simple sync memory data into store engine like mysql,redis,file.
+
 ### import 
 try {
-  var dbmgr = require('dbmgr');
+  var DBsync = require('dbsync');
 } catch (err) {
-  var dbmgr = require('../');
+  var DBsync = require('../');
 }
 
 #### create options
@@ -14,31 +18,31 @@ try {
 var options = {};
 
 /**
- * Usage information.
+ * Usage information.snyc for file 
  */
 //var FileRewriter = require('../lib/rewriter/filerewriter');
 //options.rewrite = new FileRewriter();
 //options.interval = 1000 * 60 * 3; //default sync timer
 
+
 ### Start server
-var server = dbmgr.create(options);
-
-
+var sync = new DBsync(this,opt) ;
 
 ### register object
 var user1 = new User('hello');
 var user2 = new User('world');
 
+var key = 'hello';
 
-server.register(user1,user1,function(err,resp){
+sync.set(key,user1,function(err,resp){
 	console.log('app.js register user1 result error=' + JSON.stringify(err) + ' resp ' + JSON.stringify(resp));
 });
 
-server.register(user2,user2,function(err,resp){
+sync.set('world',user2,function(err,resp){
 	console.log('app.js register user2  result error=' + err + ' resp ' + JSON.stringify(resp));
 });
 
-server.get(user1,function(err,resp){
+sync.get(key,function(err,resp){
 	console.log(' app.js get  result error=' + err + ' resp ' + JSON.stringify(resp));
 });
 
@@ -51,4 +55,13 @@ if you use mysql or redis sync,you should set options.client,the file sync is de
 
 mysql OR mapping in this modules do not support,user should realize it self.
 
+/**
+ * Usage information.snyc for mysql 
+ */
+//var dbclient = require('./mysql/mysql');
+//var Mysqlrewriter = require('./mysqlrewriter');
+//var opt = {};
+//opt.client = dbclient;
+//opt.rewriter = new Mysqlrewriter();
+//opt.interval = 1000 * 10;
 
